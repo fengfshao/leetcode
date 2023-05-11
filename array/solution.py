@@ -46,8 +46,32 @@ class Solution:
                 return [i,dict[num2]]
             dict[nums[i]]=i
         return []
+
     '''
+    4. Median of Two Sorted Arrays
+    TODO
+    '''
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        pass
     
+    '''
+    11. Container With Most Water
+    双指针方法，i,j初始放置两端，由于长度缩短，潜在更大的容量需要更高的两壁，高度取决于两边较低的一个
+    因此当左边相对较低时潜在值只可能在[i+1,j]，右边较低时潜在值只能在[i,j-1]
+    '''
+    def maxArea(self, height: List[int]) -> int:
+        assert len(height)>=2
+        i,j=0,len(height)-1
+        res=0
+        while(i<j):
+            res=max(res,min(height[i],height[j])*(j-i))
+            if(height[i]<height[j]):
+                i+=1
+            else:
+                j-=1
+        return res
+
+    '''
     2. Add Two Numbers
     两个数求和，遍历链表，两个数的加法实际上也是从个位到高位的，
     因此题目的`digits are stored in reverse order`正好。
@@ -70,7 +94,6 @@ class Solution:
         if extra>0:
             cur3.next=ListNode(extra)
         return res.next
-
     '''
     3. Longest Substring Without Repeating Characters
     经典滑动窗口解法，使用set去重
@@ -103,10 +126,12 @@ class Solution:
 
 sol=Solution()
 # print(sol.twoSum([1,2,3,4],6))
-nums=[1,2,2,6]
-print(sol.removeDuplicates(nums))
-print(nums)
-# l1=ListNode(3,ListNode(2,ListNode(1)))
+# nums=[1,2,2,6]
+# print(sol.removeDuplicates(nums))
+# print(nums)
+
+print(sol.maxArea([1,8,6,2,5,4,8,3,7]))
+print(sol.maxArea([3,3]))
 # l2=ListNode(7,ListNode(8,ListNode(9)))
 # print(l1)
 # print(sol.addTwoNumbers(l1,l2))
