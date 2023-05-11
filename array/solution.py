@@ -12,7 +12,7 @@ class ListNode:
             res+="->"+str(cur.next.val)
             cur=cur.next
         return res
-
+#fsfs
 class Solution:
     '''
     1. Two Sum
