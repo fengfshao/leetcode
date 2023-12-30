@@ -12,31 +12,11 @@ class ListNode:
             res+="->"+str(cur.next.val)
             cur=cur.next
         return res
-#fsfsfslfjs
+
 class Solution:
     '''
     1. Two Sum
-    直观解法需要两层遍历来确定是否存在两个数字，sum为target值
-    但是由于这两个值有固定关系，即num2=target-num1，因此当遇到
-    num1时，可以直接得出需要的num2，因此可以借助查找解决问题。
-    类似最简单的题目，给定一组数，使用O(1)复杂度判断某个数是否存在。
-    '''
-    def twoSum0(self, nums: List[int], target: int) -> List[int]:
-        dict={}
-        for i in range(0,len(nums)):
-            dict[nums[i]]=i
-        for i in range(0,len(nums)):
-            num2=target-nums[i]
-            idx2=dict[num2]
-            if idx2 and idx2!=i :
-                return [i,dict[num2]]
-        return []
-
-    '''
-    1. Two Sum
-    实际上无需先将所有数放到map里再去查找，可以边放边查找，
-    因为遍历到num1时，即使num2不在map中，
-    但是当遍历到num2时，num1已经存在map中。
+    使用map记录扫描过的数字，避免二重循环
     '''
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         dict={}
@@ -124,14 +104,11 @@ class Solution:
                 nums[i]=nums[j]
         return i+1
 
-sol=Solution()
-# print(sol.twoSum([1,2,3,4],6))
-# nums=[1,2,2,6]
 # print(sol.removeDuplicates(nums))
 # print(nums)
 
-print(sol.maxArea([1,8,6,2,5,4,8,3,7]))
-print(sol.maxArea([3,3]))
+# print(sol.maxArea([1,8,6,2,5,4,8,3,7]))
+# print(sol.maxArea([3,3]))
 # l2=ListNode(7,ListNode(8,ListNode(9)))
 # print(l1)
 # print(sol.addTwoNumbers(l1,l2))
