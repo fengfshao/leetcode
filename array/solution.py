@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from typing import List
 from typing import Optional
 
@@ -74,6 +76,7 @@ class Solution:
         if extra>0:
             cur3.next=ListNode(extra)
         return res.next
+
     '''
     3. Longest Substring Without Repeating Characters
     经典滑动窗口解法，使用set去重
@@ -90,7 +93,7 @@ class Solution:
                 l=l+1
             res=max(res,r-l+1)
         return res
-        
+
     '''
     26. Remove Duplicates from Sorted Array
     删除有序数组中的重复元素，双指针思路一遍扫描，[0...i]存放不重复的递增元素，j遍历数组
