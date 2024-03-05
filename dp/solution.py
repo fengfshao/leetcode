@@ -18,6 +18,8 @@ class Solution:
     '''
     5. Longest Palindromic Substring
     因为子串要求连续，s[l,r]成立则必须s[l]=s[r]且s[l+1,r-1]也为回文子串
+    dp[i][j]表示s[i...j]为回文串
+    
     '''
     def longestPalindrome(self, s: str) -> str:
         n=len(s)
@@ -38,4 +40,4 @@ class Solution:
         return s[l:r+1]
 
 sol=Solution()
-print(sol.longestPalindrome('abba'))
+print(sol.longestPalindrome('jfskjjksfj'))

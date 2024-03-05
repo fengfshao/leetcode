@@ -93,6 +93,39 @@ class Solution:
                 l=l+1
             res=max(res,r-l+1)
         return res
+    
+    '''
+    6. Zigzag Conversion
+    之字形打印，一种直观的解法，将每个字符放到对应的行中，最后拼接结果
+    一次循环包括之形打印，如A->B->C->D
+    A   E
+    B D F
+    C 
+    '''
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows==1:
+            return s
+        rows=[[] for i in range(numRows)]
+        idx=0
+        while(idx<len(s)):
+            for i in range(0,numRows):
+                if idx<len(s):
+                    rows[i]+=s[idx]
+                    idx+=1
+            for i in range(1,numRows-1):
+                if idx<len(s):
+                    rows[numRows-1-i]+=s[idx]
+                    idx+=1
+        for i in range(0,len(rows)):
+            rows[i]=''.join(rows[i])
+        return ''.join(rows)
+        
+    '''
+    7. Reverse Integer
+    逐位解析再计算，类似parseInt。
+    '''
+    def reverse(self, x: int) -> int:
+        pass
 
     '''
     26. Remove Duplicates from Sorted Array
@@ -117,3 +150,12 @@ class Solution:
 # print(sol.addTwoNumbers(l1,l2))
 #print(sol.lengthOfLongestSubstring("abcbef"))
 
+MAX_INT=2^31-1
+MIN_INT=-2^31
+a=24345
+while a>0:
+    print(a%10)
+    a//=10
+
+sol=Solution()    
+print(sol.convert('PAYPALISHIRING',1))
