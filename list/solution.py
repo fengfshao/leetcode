@@ -31,18 +31,4 @@ class Solution:
                cur=l2.val
           return cur
 
-     def reverse(self,head:ListNode)->ListNode:
-          cur=head
-          last=None
-          while(cur):
-               tmp=cur.next
-               cur.next=last
-               last=cur
-               cur=tmp
-          return last
-     
-     def reverse(self,head:ListNode,from:int,to)
-
 sol=Solution()
-l2=sol.reverse(ListNode(12,ListNode(13,ListNode(14))))
-l2.print()

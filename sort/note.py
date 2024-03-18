@@ -1,5 +1,8 @@
 from typing import List
 
+'''
+快速排序实现
+'''
 def quicksort(nums): 
     quicksort0(nums,0,len(nums)-1)    
     
