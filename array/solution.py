@@ -140,6 +140,28 @@ class Solution:
                 nums[i]=nums[j]
         return i+1
 
+    '''
+    238. Product of Array Except Self
+    求自身以外元素的乘积，使用两个一维数组，分别是左到右和右到左
+    res[i]=left[i-1]*right[i+1]
+    '''
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n=len(nums)
+        assert n>=2
+        left=[1]*n
+        right=[1]*n
+        left[0]=nums[0]
+        right[n-1]=nums[n-1]
+        for i in range(1,len(nums)):
+            left[i]=left[i-1]*nums[i]
+            right[n-1-i]=right[n-i]*nums[n-1-i]
+        res=[0]*n
+        for i in range(0,n):
+            part1= left[i-1] if i>0 else 1
+            part2=right[i+1] if i<n-1 else 1
+            res[i]=part1*part2
+        return res
+
 # print(sol.removeDuplicates(nums))
 # print(nums)
 
@@ -158,4 +180,5 @@ while a>0:
     a//=10
 
 sol=Solution()    
-print(sol.convert('PAYPALISHIRING',1))
+#print(sol.convert('PAYPALISHIRING',1))
+print(sol.productExceptSelf([1,2,3]))

@@ -13,7 +13,7 @@ class ListNode:
                     print(cur.val)
                cur=cur.next
 
-class Solution:
+class Solution: 
      def addTwoNumbers0(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[int]:
           prev=0
           if(l1.next and l2.next):
@@ -40,6 +40,8 @@ class Solution:
                last=cur
                cur=tmp
           return last
+     
+     def reverse(self,head:ListNode,from:int,to)
 
 sol=Solution()
 l2=sol.reverse(ListNode(12,ListNode(13,ListNode(14))))
