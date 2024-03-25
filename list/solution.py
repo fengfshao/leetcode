@@ -33,7 +33,11 @@ class TreeNode:
                     q.put(node.right)
           print('')
 
-
+class Node:
+    def __init__(self, x: int, next: Node = None, random: Node = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
 
 def mkList(nums):
      dummyHead=ListNode(-1)
@@ -43,6 +47,31 @@ def mkList(nums):
           cur=cur.next
      return dummyHead.next
 
+def mkTree(nums):
+     if(len(nums)==0):
+          return None
+     idx=1
+     root=TreeNode(nums[0])
+     q=queue.Queue()
+     q.put(root)
+     while(not q.empty()):
+          cur=q.get()
+          v=None
+          if(idx<len(nums)):
+               v=nums[idx]
+               idx+=1
+          if(v):
+               cur.left=TreeNode(v)
+               q.put(cur.left)
+          v=None
+          if(idx<len(nums)):
+               v=nums[idx]
+               idx+=1
+          if(v):
+               cur.right=TreeNode(v)
+               q.put(cur.right)
+     return root
+          
 class Solution: 
      def addTwoNumbers0(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[int]:
           prev=0
@@ -281,6 +310,103 @@ class Solution:
                return rootNode
 
           return mkTree(head,None)
+     
+     '''
+     114. Flatten Binary Tree to Linked List
+     打平二叉树，用递归的办法
+     '''
+     def flatten(self, root: Optional[TreeNode]) -> None:
+          '''
+          递归打平，并返回最右的结点（前序遍历的最后一个）
+          '''
+          def flatten0(root):
+               if(root.left and root.right):
+                    lastl=flatten0(root.left)
+                    lastr=flatten0(root.right)
+                    right=root.right
+                    root.right=root.left
+                    root.left=None
+                    lastl.right=right
+                    return lastr
+               elif(root.left):
+                    lastl=flatten0(root.left)
+                    root.right=root.left
+                    root.left=None
+                    return lastl
+               elif(root.right):
+                    lastr=flatten0(root.right)
+                    return lastr
+               else:
+                    return root
 
+          if(root):
+            flatten0(root)
+
+     '''
+     114题的普通递归版
+     '''
+     def flatten(self, root: Optional[TreeNode]) -> None:
+        def flatten0(root):
+            if(root.left and root.right):
+                flatten0(root.left)
+                flatten0(root.right)
+                right=root.right
+                root.right=root.left
+                cur=root.left
+                root.left=None
+                while(cur.right):
+                        cur=cur.right
+                cur.right=right
+            elif(root.left):
+                flatten0(root.left)
+                root.right=root.left
+                root.left=None
+            elif(root.right):
+                flatten0(root.right)
+        if(root):
+            flatten0(root)
+
+     '''
+     141. Linked List Cycle
+     使用双指针环检测，原理不好理解，最好记下
+     '''
+     def hasCycle(self, head: Optional[ListNode]) -> bool:
+          fast=head
+          slow=head
+          while(fast and fast.next):
+               fast=fast.next.next
+               slow=slow.next
+               if(fast==slow):
+                    return True
+          return False
+
+     '''
+     142. Linked List Cycle II
+     同141，双指针检测环后，slow指针重置，然后移速保持一致
+     ''' 
+     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+          fast=head
+          slow=head
+          while(fast and fast.next):
+               fast=fast.next.next
+               slow=slow.next
+               if(slow==fast):
+                    break
+          if(fast!=slow):
+               return None
+          slow=head
+          while(slow!=fast):
+               slow=slow.next
+               fast=fast.next
+          return slow
+
+     '''
+     138. Copy List with Random Pointer
+     '''
+     def copyRandomList(self, head: Optional[Node]) -> Optional[Node]:
+#root=mkTree([1,2,5,3,4,None,6])
 sol=Solution()
-sol.sortedListToBST(mkList([-10,-3,0,5,9])).print()
+n2=ListNode(2)
+n2.next=ListNode(0,ListNode(-4,n2))
+ls=ListNode(3,n2)
+print(sol.detectCycle(ls).val)
