@@ -1,5 +1,6 @@
 from typing import Optional
 import queue
+from collections import deque
 
 class ListNode:
      def __init__(self, val=0, next=None):
@@ -33,11 +34,18 @@ class TreeNode:
                     q.put(node.right)
           print('')
 
-class Node:
-    def __init__(self, x: int, next: Node = None, random: Node = None):
+class Node2:
+    def __init__(self, x: int, next = None, random = None):
         self.val = int(x)
         self.next = next
         self.random = random
+
+class Node:
+    def __init__(self, val: int = 0, left = None , right = None, next = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
 
 def mkList(nums):
      dummyHead=ListNode(-1)
@@ -404,9 +412,44 @@ class Solution:
      138. Copy List with Random Pointer
      '''
      def copyRandomList(self, head: Optional[Node]) -> Optional[Node]:
-#root=mkTree([1,2,5,3,4,None,6])
+          pass
+
+     '''
+     116. Populating Next Right Pointers in Each Node
+     '''
+     def connect(self, root: Optional[Node]) -> Optional[Node]:
+          if(not root):
+               return None
+          q=deque()
+          q.append(root)
+          q.append(None)
+          while(len(q)>0):
+               cur=q.popleft()
+               if(cur):
+                    print(cur.val)
+                    cur.next=q[0]
+                    if(cur.left):
+                         q.append(cur.left)
+                    if(cur.right):
+                         q.append(cur.right)
+               else:
+                    if(q):
+                         q.append(None)
+          return root
+n1=Node(1)
+n2=Node(2)
+n3=Node(3)
+n1.left=n2
+n1.right=n3
+n4=Node(4)
+n5=Node(5)
+n2.left=n4
+n2.right=n5
+
+root=mkTree([1,2,5,3,4,None,6])
 sol=Solution()
-n2=ListNode(2)
-n2.next=ListNode(0,ListNode(-4,n2))
-ls=ListNode(3,n2)
-print(sol.detectCycle(ls).val)
+sol.connect(n1)
+#n2=ListNode(2)
+#n2.next=ListNode(0,ListNode(-4,n2))
+#ls=ListNode(3,n2)
+#print(sol.detectCycle(ls).val)
