@@ -423,7 +423,7 @@ class Solution:
           q=deque()
           q.append(root)
           q.append(None)
-          while(len(q)>0):
+          while(q):
                cur=q.popleft()
                if(cur):
                     print(cur.val)
