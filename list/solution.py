@@ -1,11 +1,16 @@
 from typing import Optional
+from typing import List
 import queue
 from collections import deque
+import heapq
 
 class ListNode:
      def __init__(self, val=0, next=None):
           self.val = val
           self.next = next
+
+     def __str__(self):
+        return f"ListNode(val={self.val})"
 
      def print(self):
           cur=self
@@ -161,6 +166,24 @@ class Solution:
                     cur.next=list2
                cur=cur.next
           return dh.next
+     
+     '''
+     合并有序链表
+     '''
+     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+          prq = []
+          for head in lists:
+               if head:
+                   heapq.heappush(prq, (head.val, head)) 
+          newHead=ListNode(-1)
+          last=newHead
+          while prq:
+               node=heapq.heappop(prq)[1]
+               last.next=node
+               last=node
+               if node.next:
+                    heapq.heappush(prq,(node.next.val,node.next))
+          return newHead.next
 
      '''
      24. Swap Nodes in Pairs
@@ -436,20 +459,19 @@ class Solution:
                     if(q):
                          q.append(None)
           return root
-n1=Node(1)
-n2=Node(2)
-n3=Node(3)
-n1.left=n2
-n1.right=n3
-n4=Node(4)
-n5=Node(5)
-n2.left=n4
-n2.right=n5
+     
 
-root=mkTree([1,2,5,3,4,None,6])
+
+import heapq
+prq = []
+heapq.heappush(prq, (2, ListNode(2)))
+heapq.heappush(prq, (3, ListNode(3)))
+heapq.heappush(prq, (1, ListNode(1)))
+heapq.heappush(prq, (4, ListNode(4)))
+while prq:
+     print(heapq.heappop(prq)[1])
+
 sol=Solution()
-sol.connect(n1)
-#n2=ListNode(2)
-#n2.next=ListNode(0,ListNode(-4,n2))
-#ls=ListNode(3,n2)
-#print(sol.detectCycle(ls).val)
+res=sol.mergeKLists([ListNode(1,ListNode(3)),ListNode(2,ListNode(5)),ListNode(7)])
+res1=sol.mergeKLists([])
+res1.print()
