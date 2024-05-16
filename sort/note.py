@@ -1,5 +1,55 @@
 from typing import List
 
+
+'''
+选择排序实现
+T=O(n^2),S=O(1),不稳定排序
+'''
+def selectSort(nums):
+    for i in range(len(nums)):
+        minIdx=i; # 从[i...n]中选择选择最小的数放到i上，初始最小值为nums[i]
+        for j in range(i+1,len(nums)):
+            if(nums[j]<nums[minIdx]):
+                minIdx=j
+        nums[i],nums[minIdx]=nums[minIdx],nums[i]
+
+'''
+插入排序实现
+T=O(n^2),S=O(1),稳定排序
+近乎有序数组，效率极高，可提前终止循环
+'''
+def insertSort(nums):
+    n=len(nums)
+    for i in range(1,n):
+        cur=nums[i]
+        k=i-1 #[0,i-1]有序
+        for j in range(i-1,0-1,-1):
+            if(cur<nums[j]):
+                nums[j+1]=nums[j]
+                k=j
+            else:
+                break
+        nums[k]=cur
+
+'''
+冒泡排序实现
+T=O(n^2),效率比选择高，不如插入，S=O(1)稳定排序
+记录某一趟是否产生了交换以提前结束
+'''
+def bubbleSort(nums):
+    n=len(nums)
+    swaped=1
+    for j in range(n-1,1-1,-1): # j=n-1,j>=0,j--
+        if(swaped==1):
+            # 将[0,j-1]中最大的元素冒泡交换到j的位置
+            swaped=0
+            for i in range(0,j):
+                if(nums[i]>nums[i+1]):
+                    nums[i],nums[i+1]=nums[i+1],nums[i]
+                    swaped=1
+        else:
+            break
+
 '''
 快速排序实现
 '''
@@ -21,16 +71,12 @@ def partition(nums:List[int],l:int,r:int)->int:
         if(nums[i+1]<=base):
             i+=1
         else:
-            tmp=nums[j-1]
-            nums[j-1]=nums[i+1]
-            nums[i+1]=tmp
             j-=1
+            nums[j],nums[i+1]=nums[i+1],nums[j]
     nums[l]=nums[i]
     nums[i]=base
     return i
 
 nums=[3,7,2,5,1,4,0,12,9,4]            
-quicksort(nums)
+bubbleSort(nums)
 print(nums)
-        
-        

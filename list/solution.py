@@ -168,7 +168,8 @@ class Solution:
           return dh.next
      
      '''
-     合并有序链表
+     23. Merge k Sorted Lists
+     使用堆解析多路归并排序的比较问题
      '''
      def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
           prq = []
@@ -198,6 +199,39 @@ class Solution:
                return next
           else:
                return head
+
+     '''
+     25. Reverse Nodes in k-Group
+     '''     
+     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+          dummy=ListNode(-1)
+          dummy.next=head
+          cur=head
+          pre=dummy
+          while(cur):
+               for i in range(k):
+                    if not cur:
+                         return dummy.next
+                    else:
+                         cur=cur.next
+               parthead=pre.next
+               pre.next=self.reversePart(pre.next,cur)
+               parthead.next=cur
+               pre=parthead
+          return dummy.next
+
+     '''
+     翻转begin和end之间的链表,不包含end
+     '''
+     def reversePart(self,begin,end):
+          last=None
+          cur=begin
+          while(cur!=end):
+               next=cur.next
+               cur.next=last
+               last=cur
+               cur=next
+          return last
 
      '''
      61. Rotate List
@@ -397,6 +431,36 @@ class Solution:
         if(root):
             flatten0(root)
 
+
+     '''
+     116. Populating Next Right Pointers in Each Node
+     '''
+     def connect(self, root: Optional[Node]) -> Optional[Node]:
+          if(not root):
+               return None
+          q=deque()
+          q.append(root)
+          q.append(None)
+          while(q):
+               cur=q.popleft()
+               if(cur):
+                    cur.next=q[0]
+                    if(cur.left):
+                         q.append(cur.left)
+                    if(cur.right):
+                         q.append(cur.right)
+               else:
+                    if(q):
+                         q.append(None)
+          return root
+
+     '''
+     117. Populating Next Right Pointers in Each Node II
+     '''
+     def connect(self, root: Optional[Node]) -> Optional[Node]:
+          pass
+
+
      '''
      141. Linked List Cycle
      使用双指针环检测，原理不好理解，最好记下
@@ -437,41 +501,12 @@ class Solution:
      def copyRandomList(self, head: Optional[Node]) -> Optional[Node]:
           pass
 
-     '''
-     116. Populating Next Right Pointers in Each Node
-     '''
-     def connect(self, root: Optional[Node]) -> Optional[Node]:
-          if(not root):
-               return None
-          q=deque()
-          q.append(root)
-          q.append(None)
-          while(q):
-               cur=q.popleft()
-               if(cur):
-                    print(cur.val)
-                    cur.next=q[0]
-                    if(cur.left):
-                         q.append(cur.left)
-                    if(cur.right):
-                         q.append(cur.right)
-               else:
-                    if(q):
-                         q.append(None)
-          return root
-     
-
-
-import heapq
-prq = []
-heapq.heappush(prq, (2, ListNode(2)))
-heapq.heappush(prq, (3, ListNode(3)))
-heapq.heappush(prq, (1, ListNode(1)))
-heapq.heappush(prq, (4, ListNode(4)))
-while prq:
-     print(heapq.heappop(prq)[1])
 
 sol=Solution()
-res=sol.mergeKLists([ListNode(1,ListNode(3)),ListNode(2,ListNode(5)),ListNode(7)])
-res1=sol.mergeKLists([])
-res1.print()
+l=ListNode(1,ListNode(2,ListNode(3)))
+r=ListNode(4)
+e=ListNode(5)
+r.next=e
+l.next.next.next=r
+res=sol.reverseKGroup(l,3)
+res.print()
