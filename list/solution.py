@@ -34,10 +34,17 @@ class TreeNode:
           print('')
 
 class Node:
-    def __init__(self, x: int, next: Node = None, random: Node = None):
+    def __init__(self, x: int, next = None, random = None):
         self.val = int(x)
         self.next = next
         self.random = random
+
+class Node2:
+    def __init__(self, val: int = 0, left = None, right = None, next = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
 
 def mkList(nums):
      dummyHead=ListNode(-1)
@@ -367,6 +374,12 @@ class Solution:
             flatten0(root)
 
      '''
+     116. Populating Next Right Pointers in Each Node
+     '''
+     def connect(self, root: Optional[Node2]) -> Optional[Node2]:
+          pass
+
+     '''
      141. Linked List Cycle
      使用双指针环检测，原理不好理解，最好记下
      '''
@@ -402,9 +415,31 @@ class Solution:
 
      '''
      138. Copy List with Random Pointer
+     先拷贝一遍到next里,形成A->A'->B->B'->C->C'，再赋值randome指针，最后再断开
      '''
      def copyRandomList(self, head: Optional[Node]) -> Optional[Node]:
+          cur=head
+          while(cur):
+               newNode=Node(cur.val,cur.next)
+               next=cur.next
+               cur.next=newNode
+               cur=next
+          cur=head
+          while(cur):
+               if(cur.random):
+                    cur.next.random=cur.random.next
+               cur=cur.next.next
+          dummyHead=Node(-1)
+          curnew=dummyHead
+          cur=head
+          while(cur):
+               curnew.next=cur.next
+               cur.next=cur.next.next    
+               cur=cur.next
+               curnew=curnew.next
+          return dummyHead.next
 #root=mkTree([1,2,5,3,4,None,6])
+
 sol=Solution()
 n2=ListNode(2)
 n2.next=ListNode(0,ListNode(-4,n2))
