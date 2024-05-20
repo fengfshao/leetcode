@@ -1,10 +1,16 @@
 from typing import Optional
+from typing import List
 import queue
+from collections import deque
+import heapq
 
 class ListNode:
      def __init__(self, val=0, next=None):
           self.val = val
           self.next = next
+
+     def __str__(self):
+        return f"ListNode(val={self.val})"
 
      def print(self):
           cur=self
@@ -40,7 +46,7 @@ class Node:
         self.random = random
 
 class Node2:
-    def __init__(self, val: int = 0, left = None, right = None, next = None):
+    def __init__(self, val: int = 0, left = None , right = None, next = None):
         self.val = val
         self.left = left
         self.right = right
@@ -160,6 +166,24 @@ class Solution:
                     cur.next=list2
                cur=cur.next
           return dh.next
+     
+     '''
+     合并有序链表
+     '''
+     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+          prq = []
+          for head in lists:
+               if head:
+                   heapq.heappush(prq, (head.val, head)) 
+          newHead=ListNode(-1)
+          last=newHead
+          while prq:
+               node=heapq.heappop(prq)[1]
+               last.next=node
+               last=node
+               if node.next:
+                    heapq.heappush(prq,(node.next.val,node.next))
+          return newHead.next
 
      '''
      24. Swap Nodes in Pairs
@@ -438,10 +462,32 @@ class Solution:
                cur=cur.next
                curnew=curnew.next
           return dummyHead.next
-#root=mkTree([1,2,5,3,4,None,6])
+
+     '''
+     116. Populating Next Right Pointers in Each Node
+     '''
+     def connect(self, root: Optional[Node]) -> Optional[Node]:
+          if(not root):
+               return None
+          q=deque()
+          q.append(root)
+          q.append(None)
+          while(q):
+               cur=q.popleft()
+               if(cur):
+                    print(cur.val)
+                    cur.next=q[0]
+                    if(cur.left):
+                         q.append(cur.left)
+                    if(cur.right):
+                         q.append(cur.right)
+               else:
+                    if(q):
+                         q.append(None)
+          return root
+     
+
 
 sol=Solution()
-n2=ListNode(2)
-n2.next=ListNode(0,ListNode(-4,n2))
-ls=ListNode(3,n2)
-print(sol.detectCycle(ls).val)
+res=sol.mergeKLists([ListNode(1,ListNode(3)),ListNode(2,ListNode(5)),ListNode(7)])
+res.print()
