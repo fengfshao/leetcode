@@ -39,13 +39,13 @@ class TreeNode:
                     q.put(node.right)
           print('')
 
-class Node2:
+class Node:
     def __init__(self, x: int, next = None, random = None):
         self.val = int(x)
         self.next = next
         self.random = random
 
-class Node:
+class Node2:
     def __init__(self, val: int = 0, left = None , right = None, next = None):
         self.val = val
         self.left = left
@@ -431,7 +431,6 @@ class Solution:
         if(root):
             flatten0(root)
 
-
      '''
      116. Populating Next Right Pointers in Each Node
      '''
@@ -444,6 +443,7 @@ class Solution:
           while(q):
                cur=q.popleft()
                if(cur):
+                    print(cur.val)
                     cur.next=q[0]
                     if(cur.left):
                          q.append(cur.left)
@@ -453,13 +453,39 @@ class Solution:
                     if(q):
                          q.append(None)
           return root
-
+     
      '''
      117. Populating Next Right Pointers in Each Node II
      '''
      def connect(self, root: Optional[Node]) -> Optional[Node]:
           pass
 
+
+     '''
+     138. Copy List with Random Pointer
+     先拷贝一遍到next里,形成A->A'->B->B'->C->C'，再赋值randome指针，最后再断开
+     '''
+     def copyRandomList(self, head: Optional[Node]) -> Optional[Node]:
+          cur=head
+          while(cur):
+               newNode=Node(cur.val,cur.next)
+               next=cur.next
+               cur.next=newNode
+               cur=next
+          cur=head
+          while(cur):
+               if(cur.random):
+                    cur.next.random=cur.random.next
+               cur=cur.next.next
+          dummyHead=Node(-1)
+          curnew=dummyHead
+          cur=head
+          while(cur):
+               curnew.next=cur.next
+               cur.next=cur.next.next    
+               cur=cur.next
+               curnew=curnew.next
+          return dummyHead.next
 
      '''
      141. Linked List Cycle
@@ -494,12 +520,6 @@ class Solution:
                slow=slow.next
                fast=fast.next
           return slow
-
-     '''
-     138. Copy List with Random Pointer
-     '''
-     def copyRandomList(self, head: Optional[Node]) -> Optional[Node]:
-          pass
 
 
 sol=Solution()
