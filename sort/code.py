@@ -87,10 +87,38 @@ def mergeSort0(nums,l:int,r:int):
 '''
 堆排序实现,使用基于数组存储的完全二叉树
 T=O(n*logn), S=O(1),不稳定排序
-'''
-def heapsort(nums):
-    pass
+从最后一个非叶结点(i=n/2-1)开始执行下沉操作
+完全二叉树最后一个非叶结点(https://www.bilibili.com/read/cv19832424/)
 
+先进行原地建堆,时间复杂度O(n)
+将堆顶元素放到数组尾部,将堆大小减1,然后对堆顶执行shiftDown,执行n-1次即可.
+'''
+def heapSort(nums):
+    n=len(nums)
+    for i in range(n//2-1,-1,-1):
+        shiftDown(nums,n,i)
+    for i in range(n-1,0,-1):
+        nums[0],nums[i]=nums[i],nums[0]
+        shiftDown(nums,i,0)
+
+def shiftDown(nums,n,i):
+    if(i<n):
+        left=2*i+1
+        right=2*i+2
+        if(left<n and right<n):
+            mc=max(nums[left],nums[right])
+            if(nums[i]<mc):
+                if(mc==nums[left]):
+                    nums[i],nums[left]=nums[left],nums[i]
+                    shiftDown(nums,n,left)
+                else:
+                    nums[i],nums[right]=nums[right],nums[i]
+                    shiftDown(nums,n,right)
+        elif(left<n):
+            if(nums[i]<nums[left]):
+                nums[i],nums[left]=nums[left],nums[i]
+                shiftDown(nums,n,left)
+        
 '''
 快速排序实现
 '''
@@ -119,5 +147,5 @@ def partition(nums:List[int],l:int,r:int)->int:
     return i
 
 nums=[3,7,2,5,1,4,0,12,9,4]            
-mergeSort(nums)
+heapSort(nums)
 print(nums)
