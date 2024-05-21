@@ -50,6 +50,47 @@ def bubbleSort(nums):
         else:
             break
 
+
+'''
+归并排序实现，T=O(n*logn)，S=O(n)，稳定排序
+适合链表等多路排序
+'''
+
+def mergeSort(nums:List[int]):
+    mergeSort0(nums,0,len(nums)-1)
+
+def mergeSort0(nums,l:int,r:int):
+    if(l>=r):
+        return
+    q=(l+r)//2
+    print(l,r,q)
+    mergeSort0(nums,l,q)
+    mergeSort0(nums,q+1,r)
+    left=nums[l:q+1]
+    right=nums[q+1:r+1]
+    idx1,idx2=0,0
+    for i in range(l,r+1):
+        if(idx1<len(left) and idx2<len(right)):
+            if(left[idx1]<right[idx2]):
+                nums[i]=left[idx1]
+                idx1+=1
+            else:
+                nums[i]=right[idx2]
+                idx2+=1
+        elif(idx1<len(left)):
+            nums[i]=left[idx1]
+            idx1+=1
+        else:
+            nums[i]=right[idx2]
+            idx2+=1
+
+'''
+堆排序实现,使用基于数组存储的完全二叉树
+T=O(n*logn), S=O(1),不稳定排序
+'''
+def heapsort(nums):
+    pass
+
 '''
 快速排序实现
 '''
@@ -78,5 +119,5 @@ def partition(nums:List[int],l:int,r:int)->int:
     return i
 
 nums=[3,7,2,5,1,4,0,12,9,4]            
-bubbleSort(nums)
+mergeSort(nums)
 print(nums)
