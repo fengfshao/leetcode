@@ -52,6 +52,60 @@ class Node2:
         self.right = right
         self.next = next
 
+'''
+146. LRU Cache
+Least Recently Used (LRU) cache.
+'''
+class DNode:
+     def __init__(self, key: int=-1,val: int=-1):
+          self.key=key
+          self.val=val
+          self.prev=None
+          self.next=None
+class LRUCache:
+
+     def __init__(self, capacity: int):
+          self.capacity=capacity
+          self.__map={}
+          dummy=DNode()
+          self.head=dummy
+          self.tail=dummy
+
+     def __addToEnd(self,node):
+          self.tail.next=node
+          node.prev=self.tail
+          self.tail=node
+
+     def __moveToEnd(self,node):
+          self.__delNode(node)
+          self.__addToEnd(node)
+     
+     def __delNode(self,node):
+          node.prev.next=node.next
+          if(node.next):
+               node.next.prev=node.prev
+
+
+     def get(self, key: int) -> int:
+          if key not in self.__map:
+               return -1
+          node=self.__map[key]
+          self.__moveToEnd(node)
+          return node.val
+
+     def put(self, key: int, value: int) -> None:
+          if key not in self.__map:
+               if(len(self.__map)<self.capacity):
+                    node=DNode(key,value)
+                    self.__map[key]=node
+                    self.__addToEnd(node)
+               else:
+                    self.__map.pop(self.head.next.key)
+                    self.__delNode(self.head.next)
+                    self.put(key,value)
+          else:
+               node=self.__map(key)
+
 def mkList(nums):
      dummyHead=ListNode(-1)
      cur=dummyHead
@@ -320,6 +374,7 @@ class Solution:
           curleft.next=right.next
           curright.next=None
           return left.next
+
      '''
      92. Reverse Linked List II
      注意反转完控制上左边和右边的处理
@@ -456,10 +511,10 @@ class Solution:
      
      '''
      117. Populating Next Right Pointers in Each Node II
+     这道题相比于116给的条件是普通二叉树,而非完全二叉树,但116的解法已适用
      '''
      def connect(self, root: Optional[Node]) -> Optional[Node]:
           pass
-
 
      '''
      138. Copy List with Random Pointer
@@ -521,12 +576,48 @@ class Solution:
                fast=fast.next
           return slow
 
+     '''
+     143. Reorder List
+     将链表分为两部分,后半部分翻转,最后串一下
+     '''
+     def reorderList(self, head: Optional[ListNode]) -> None:
+          middle=self.middle(head)
+          l=self.reversePart(middle,None) 
+          cur=head
+          while(cur!=middle):
+               next=cur.next
+               nextl=l.next
+               cur.next=l
+               #增加守卫,避免这种实现偶数长度链表时最后一个结点循环
+               #因为reversePart后,前半部分没彻底断开
+               if(l!=next): 
+                    l.next=next
+               l=nextl
+               cur=next
+
+     def middle(self,head:Optional[ListNode]):
+          slow=head
+          fast=head
+          while(fast and fast.next):
+               fast=fast.next.next
+               slow=slow.next
+          return slow
 
 sol=Solution()
 l=ListNode(1,ListNode(2,ListNode(3)))
 r=ListNode(4)
 e=ListNode(5)
-r.next=e
+#r.next=e
 l.next.next.next=r
-res=sol.reverseKGroup(l,3)
-res.print()
+sol.reorderList(l)
+
+
+cache=LRUCache(2)
+cache.put(1,1)
+cache.put(2,2)
+cache.get(1)
+print(cache.tail.val)
+print(cache.head.next.val)
+cache.put(3,3)
+print(cache.get(2))
+print(cache.get(3))

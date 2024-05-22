@@ -28,6 +28,9 @@ def findNthFromEnd(head: Optional[ListNode], n: int) -> Optional[ListNode]:
         p2=p2.next
     return p2
 
+'''
+链表判断是否有换,快慢双指针相遇
+'''
 def hasCycle(head: Optional[ListNode]) -> bool:
     fast=head
     slow=head
@@ -38,5 +41,15 @@ def hasCycle(head: Optional[ListNode]) -> bool:
             return True
     return False
 
+'''
+链表中间结点,偶数时为下半部分第一个
+'''
+def middle(head:Optional[ListNode]):
+    slow=head
+    fast=head
+    while(fast and fast.next):
+        fast=fast.next.next
+        slow=slow.next
+    return slow
 l2=reverse(ListNode(12,ListNode(13,ListNode(14))))
 l2.print()
