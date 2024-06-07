@@ -141,6 +141,19 @@ class Solution:
         return i+1
 
     '''
+    27. Remove Element
+    类似26题,使用双指针,i为上一个无val元素的序列的位置,j遍历数组
+    '''
+    def removeElement(self, nums: List[int], val: int) -> int:
+        assert len(nums)>0
+        i=-1
+        for j in range(0,len(nums)):
+            if(nums[j]!=val):
+                i+=1
+                nums[i]=nums[j]
+        return i+1
+
+    '''
     238. Product of Array Except Self
     求自身以外元素的乘积，使用两个一维数组，分别是左到右和右到左
     res[i]=left[i-1]*right[i+1]
@@ -161,24 +174,59 @@ class Solution:
             part2=right[i+1] if i<n-1 else 1
             res[i]=part1*part2
         return res
+    
+    '''
+    31. Next Permutation
+    排列组合的问题
+    '''
+    def nextPermutation(self, nums: List[int]) -> None:
+        pass
 
-# print(sol.removeDuplicates(nums))
-# print(nums)
+    '''
+    42. Trapping Rain Water
+    确定左边和右边的最大值
+    '''
+    def trap(self, height: List[int]) -> int:
+        n=len(height)
+        maxleft=[0]*n
+        maxright=[0]*n
+        m=height[0]
+        for i in range(1,n):
+            maxleft[i]=m
+            m=max(m,height[i])
+        m=height[n-1]
+        for i in range(n-2,-1,-1):
+            maxright[i]=m
+            m=max(m,height[i])
+        
+        res=0
+        for i in range(1,n-1):
+            if height[i]<maxleft[i] and height[i]<maxright[i]:
+                res+=min(maxleft[i],maxright[i])-height[i]
+        return res
 
-# print(sol.maxArea([1,8,6,2,5,4,8,3,7]))
-# print(sol.maxArea([3,3]))
-# l2=ListNode(7,ListNode(8,ListNode(9)))
-# print(l1)
-# print(sol.addTwoNumbers(l1,l2))
-#print(sol.lengthOfLongestSubstring("abcbef"))
-
-MAX_INT=2^31-1
-MIN_INT=-2^31
-a=24345
-while a>0:
-    print(a%10)
-    a//=10
-
-sol=Solution()    
-#print(sol.convert('PAYPALISHIRING',1))
-print(sol.productExceptSelf([1,2,3]))
+    '''
+    80. Remove Duplicates from Sorted Array II
+    基于滑动窗口解决
+    '''
+    def removeDuplicatesII(self, nums: List[int]) -> int:
+        l,r=0,-1
+        last=-1
+        c=0
+        while(l<len(nums)):
+            while c <2 and r+1<len(nums) and nums[r+1]==nums[l]:
+                r+=1
+                c+=1
+            for i in range(l,r+1):
+                last+=1
+                nums[last]=nums[i]
+            while r+1<len(nums) and nums[r+1]==nums[l]:
+                r+=1
+            l=r+1
+            c=0
+        return last+1
+    
+sol=Solution()
+nums=[0,0,1,1,1,1,2,3,3]
+print(sol.removeDuplicatesII(nums))
+print(nums)
