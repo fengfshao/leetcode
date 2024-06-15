@@ -396,7 +396,38 @@ class Solution:
         return resList[0]
 
 
+    '''
+    532. K-diff Pairs in an Array
+    '''
+    def findPairs(self, nums: List[int], k: int) -> int:
+        visited=set()
+        res=set()
+        for num in nums:
+            if num+k in visited:
+                res.add(num)
+            if num-k in visited:
+                res.add(num-k)
+            visited.add(num)
+        return len(res)
 
+    '''
+    541. Reverse String II
+    '''
+    def reverseStr(self, s: str, k: int) -> str:
+        def reverse(chs,l,r):
+            while l<r:
+                chs[l],chs[r]=chs[r],chs[l]
+                l+=1
+                r-=1
+        i,n=0,len(s)
+        chs=list(s)
+        while i<n:
+            j=min(i+k-1,n-1)
+            print(i,j)
+            reverse(chs,i,j)
+            print(chs)
+            i+=2*k
+        return ''.join(chs)
 
 sol=Solution()
 # colors=[1,2,3,0,0,0]
@@ -406,4 +437,5 @@ sol=Solution()
 # print(sol.compareVersion("1.0.1","1"))
 nums=[0,1,0,3,12]
 #print(sol.compress(["a","a","b","b","c","c","c"]))
-print(sol.findLongestWord("abpcplea",dictionary = ["ale","apple","monkey","plea"]))
+#print(sol.findLongestWord("abpcplea",dictionary = ["ale","apple","monkey","plea"]))
+print(sol.reverseStr("abcd",2))
