@@ -107,8 +107,303 @@ class Solution:
             else:
                 cur+=1
 
+
+    '''
+    88. Merge Sorted Array
+    '''
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        nums3=nums1[0:m]
+        i,j,k=0,0,0
+        while i<m or j<n:
+            if i<m and j<n:
+                if nums3[i]<nums2[j]:
+                    nums1[k]=nums3[i]
+                    k+=1
+                    i+=1
+                else:
+                    nums1[k]=nums2[j]
+                    k+=1
+                    j+=1
+            elif i<m:
+                nums1[k]=nums3[i]
+                k+=1
+                i+=1
+            else:
+                nums1[k]=nums2[j]
+                k+=1
+                j+=1
+
+    '''
+    125. Valid Palindrome
+    '''
+    def isPalindrome(self, s: str) -> bool:
+        newstr=''.join(filter(str.isalnum, s)).lower()
+        i,j=0,len(newstr)-1
+        while i<j:
+            if newstr[i]!=newstr[j]:
+                return False
+            i+=1
+            j-=1
+        return True
+                
+    '''
+    151. Reverse Words in a String
+    这个题可以通过两次翻转的办法,先将词倒过来,后面再去除多余的空格
+    python字符串不可变
+    '''
+    def reverseWords(self, s: str) -> str:
+        pass
+
+    '''
+    165. Compare Version Numbers
+    循环比较数字部分
+    '''
+    def compareVersion(self, version1: str, version2: str) -> int:
+        nums1=list(map(int, version1.split('.')))
+        nums2=list(map(int, version2.split('.')))
+        n=max(len(nums1),len(nums2))
+        for i in range(n):
+            v1,v2=0,0
+            if i <len(nums1): v1=nums1[i]
+            if i <len(nums2): v2=nums2[i]
+            if v1<v2:
+                return -1
+            elif v1>v2:
+                return 1
+        return 0 
+
+    '''
+    167. Two Sum II - Input Array Is Sorted
+    '''
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        l,r=0,len(numbers)-1
+        while(l<r):
+            sum=numbers[l]+numbers[r]
+            if sum<target:
+                l+=1
+            elif sum>target:
+                r-=1
+            else:
+                return [l+1,r+1]
+        return [0,0]
+
+    '''
+    189. Rotate Array
+    基于两次翻转的思路,实现局部有序,整体倒序
+    '''
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        def reverseBetween(nums,l,r):
+            while l<r:
+                nums[l],nums[r]=nums[r],nums[l]
+                l+=1
+                r-=1
+        reverseBetween(nums,0,len(nums)-1)
+        reverseBetween(nums,0,k-1)
+        reverseBetween(nums,k,len(nums)-1)
+
+    '''
+    283. Move Zeroe
+    维护好索引即可
+    '''
+    def moveZeroes(self, nums: List[int]) -> None:
+        last=-1
+        for i in range(len(nums)):
+            if nums[i]!=0:
+                last+=1
+                nums[last]=nums[i]
+        for i in range(last+1,len(nums)):
+            nums[i]=0
+
+    '''
+    344. Reverse String
+    '''
+    def reverseString(self, s: List[str]) -> None:
+        l,r=0,len(s)-1
+        while l<r:
+            s[l],s[r]=s[r],s[l]
+            l+=1
+            r-=1
+
+    '''
+    345. Reverse Vowels of a String
+    '''
+    def reverseVowels(self, s: str) -> str:
+        n=len(s)
+        l,r=0,n-1
+        vowels=['a','e','i','o','u','A','E','I','O','U']
+        chs=list(s)
+        while l<r:
+            while l<r and chs[l] not in vowels:
+                l+=1
+            while r>l and chs[r] not in vowels:
+                r-=1
+            if l<n and r>=0:
+                chs[l],chs[r]=chs[r],chs[l]
+                l+=1
+                r-=1
+        return ''.join(chs)
+
+    '''
+    349. Intersection of Two Arrays
+    ''' 
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums1.sort()
+        nums2.sort()
+        n1=len(nums1)
+        n2=len(nums2)
+        p1,p2=0,0
+        res=set()
+        while p1<n1 and p2<n2:
+            if nums1[p1] == nums2[p2]:
+                res.add(nums1[p1])
+                p1 += 1
+                p2 += 1
+            elif nums1[p1] < nums2[p2]:
+                p1 += 1
+            else:
+                p2 += 1
+        return list(res)
+
+    '''
+    350. Intersection of Two Arrays II
+    '''
+    def intersectII(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums1.sort()
+        nums2.sort()
+        n1=len(nums1)
+        n2=len(nums2)
+        p1,p2=0,0
+        res=[]
+        while p1<n1 and p2<n2:
+            if nums1[p1] == nums2[p2]:
+                res.append(nums1[p1])
+                p1 += 1
+                p2 += 1
+            elif nums1[p1] < nums2[p2]:
+                p1 += 1
+            else:
+                p2 += 1
+        return list(res)
     
+    '''
+    392. Is Subsequence
+    '''
+    def isSubsequence(self, s: str, t: str) -> bool:
+        ps,pt=0,0
+        while ps<len(s) and pt<len(t):
+            if s[ps]==t[pt]:
+                ps+=1
+                pt+=1
+            else:
+                pt+=1
+        return not ps<len(s)
+
+    '''
+    443. String Compression
+    基于滑动窗口的思路
+    '''
+    def compress(self, chars: List[str]) -> int:
+        l,r,win=0,0,1
+        res=[]
+        n=len(chars)
+        while l<n:
+            while r+1<n and chars[r+1]==chars[l]:
+                r+=1
+                win+=1
+            res.append(chars[l])
+            if win>1:
+                res.extend(str(win))
+                win=1
+            l=r=r+1
+        for i in range(len(res)):
+            chars[i]=res[i]
+        return len(res) 
+    
+    '''
+    457. Circular Array Loop
+    题目没太看懂
+    '''
+    def circularArrayLoop(self, nums: List[int]) -> bool:
+        pass
+
+    '''
+    475. Heater
+    主要是基于二分查找寻找离得最近的heater
+    '''
+    def findRadius(self, houses: List[int], heaters: List[int]) -> int:
+        def binsearchMost(nums,target):
+            l,r=0,len(nums)-1
+            while l<=r:
+                m=(l+r)//2
+                if target==nums[m]:
+                    return m
+                elif target<nums[m]:
+                    r=m-1
+                else:
+                    l=m+1
+            if r==-1:
+                return l
+            elif l==len(nums): 
+                return r
+            else:
+                d1,d2=abs(nums[l]-target),abs(nums[r]-target)
+                return l if d1<d2 else r
+
+        heaters.sort()
+        res=0
+        for i in range(len(houses)):
+           idx=binsearchMost(heaters,houses[i])
+           dist=abs(heaters[idx]-houses[i])
+           res=max(res,dist)
+        return res
+
+    '''
+    481. Magical String
+    '''    
+    def magicalString(self, n: int) -> int:
+        pass
+
+    '''
+    522. Longest Uncommon Subsequence II
+    '''
+    def findLUSlength(self, strs: List[str]) -> int:
+        pass
+
+
+    '''
+    524. Longest Word in Dictionary through Deleting
+    循环判断字典的每个字符串是不是输入的子串
+    '''
+    def findLongestWord(self, s: str, dictionary: List[str]) -> str:
+        def isSubsequence(s,x):
+            i,j=0,0
+            for i in range(len(s)):
+                if s[i]==x[j]: j+=1
+                if j>=len(x): return True
+             
+        res=""
+        resList=[""]
+        for x in dictionary:
+            if len(x)>=len(res) and isSubsequence(s,x):
+                if len(x)>len(res):
+                    resList=[]
+                res=x
+                resList.append(res)
+        resList.sort()
+        return resList[0]
+
+
+
+
 sol=Solution()
-colors=[2,0,1]
-sol.sortColors(colors)
-print(colors)
+# colors=[1,2,3,0,0,0]
+# sol.merge(colors,3,[2,5,6],3)
+# print(sol.isPalindrome("A man, a plan, a canal: Panama"))
+# str1='abcd'
+# print(sol.compareVersion("1.0.1","1"))
+nums=[0,1,0,3,12]
+#print(sol.compress(["a","a","b","b","c","c","c"]))
+print(sol.findLongestWord("abpcplea",dictionary = ["ale","apple","monkey","plea"]))

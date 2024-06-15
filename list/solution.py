@@ -1122,8 +1122,8 @@ class Solution:
                     return True
                if(cur.left):  q.append(cur.left)
                if(cur.right): q.append(cur.right)
-          return False
-              
+          return False          
+                      
 '''
 水塘抽样算法,k=1
 https://www.jianshu.com/p/337997243eea/
@@ -1158,4 +1158,4 @@ l2=sol.oddEvenList(l)
 l2.print()
 
 list=mkList([2,1,5])
-print(sol.nextLargerNodes(list))
+print(sol.moveZeroes([0,1,0,3,12]))
