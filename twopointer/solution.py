@@ -4,6 +4,7 @@ import queue
 from collections import deque
 import heapq
 import random
+import math
 
 class Solution:
 
@@ -429,6 +430,82 @@ class Solution:
             i+=2*k
         return ''.join(chs)
 
+    '''
+    557. Reverse Words in a String III
+    '''
+    def reverseWordsIII(self, s: str) -> str:
+        def reverse(chs,l,r):
+            while l<r:
+                chs[l],chs[r]=chs[r],chs[l]
+                l+=1
+                r-=1
+        i,n=0,len(s)
+        chs=list(s)
+        while i<n:
+            j=i
+            while j<n and chs[j]!=' ':
+                j+=1
+            reverse(chs,i,j-1)
+            i=j+1
+        return ''.join(chs)
+
+    '''
+    611. Valid Triangle Number
+    三角形判断条件a+b>c && a+c>b && b+c>a可简化为a+b>c,当a<=b<=c时
+    因此可以将数组排序后进行搜索,避免O(n^3)的暴力搜索
+    '''
+    def triangleNumber(self, nums: List[int]) -> int:
+        #找第一个>=target的数
+        def search(nums,l,r,target):
+            while l<=r:
+                m=(l+r)//2
+                if target>nums[m]:
+                    l=m+1
+                else:
+                    r=m-1
+            return l 
+
+        nums.sort()
+        n=len(nums)
+        res=0
+        for i in range(0,n-2):
+            for j in range(i+1,n-1):
+                k=search(nums,j+1,n-1,nums[i]+nums[j])
+                #从k开始(包含k)后面的数都是nums[k]>=nums[i]+nums[j]
+                res+=k-1-j
+        return res
+
+    '''
+    633. Sum of Square Numbers
+    '''
+    def judgeSquareSum(self, c: int) -> bool:
+        for i in range(int(math.sqrt(c)) + 1):
+            b = math.sqrt(c - i*i)
+            if b==int(b):
+                return True
+        return False
+
+    '''
+    647. Palindromic Substrings
+    类似第五题,采用动态规划避免重复搜索
+    '''
+    def countSubstrings(self, s: str) -> int:
+        n = len(s)
+        memo = [[False] * n for _ in range(n)]
+        res=n
+        for i in range(n):
+            memo[i][i]=True
+            if i+1<n and s[i]==s[i+1]:
+                memo[i][i+1]=True
+                res+=1
+        for span in range(2,n):
+            for i in range(0,n-span):
+                j=i+span
+                if s[i]==s[j] and memo[i+1][j-1]:
+                    memo[i][j]=True
+                    res+=1
+        return res
+
 sol=Solution()
 # colors=[1,2,3,0,0,0]
 # sol.merge(colors,3,[2,5,6],3)
@@ -438,4 +515,4 @@ sol=Solution()
 nums=[0,1,0,3,12]
 #print(sol.compress(["a","a","b","b","c","c","c"]))
 #print(sol.findLongestWord("abpcplea",dictionary = ["ale","apple","monkey","plea"]))
-print(sol.reverseStr("abcd",2))
+print(sol.countSubstrings("abba"))

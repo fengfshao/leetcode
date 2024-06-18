@@ -49,4 +49,17 @@ def binsearchMost(nums,target):
         d1,d2=abs(nums[l]-target),abs(nums[r]-target)
         return l if d1<d2 else r
 
-print(binsearchMost([1,3,7],10))
+'''
+找第一个>=target的数
+'''
+def binsearchGreater(nums,l,r,target):
+    while l<=r:
+        m=(l+r)//2
+        if target>nums[m]:
+            l=m+1
+        else:
+            r=m-1
+    return l
+
+
+print(binsearchGreater([1,3,11,11],0,3,10))
