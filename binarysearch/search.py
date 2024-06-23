@@ -1,3 +1,5 @@
+from typing import List
+
 '''
 标准的二分查找,注意l<=r
 '''

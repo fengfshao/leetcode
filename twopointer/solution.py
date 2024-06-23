@@ -548,6 +548,21 @@ class Solution:
                 r-=1
                 l+=1
         return image
+    
+    '''
+    658. Find K Closest Elements
+    '''
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        l,r=0,len(arr)-1
+        while r-l+1>k:
+            if abs(arr[l]-x)>abs(arr[r]-x):
+                l+=1
+            else:
+                r-=1
+        print(l,r)
+        return arr[l:r+1]
+
+
 sol=Solution()
 # colors=[1,2,3,0,0,0]
 # sol.merge(colors,3,[2,5,6],3)
@@ -557,4 +572,4 @@ sol=Solution()
 nums=[0,1,0,3,12]
 #print(sol.compress(["a","a","b","b","c","c","c"]))
 #print(sol.findLongestWord("abpcplea",dictionary = ["ale","apple","monkey","plea"]))
-print(sol.countSubstrings("abba"))
+print(sol.findClosestElements(arr = [1,1,1,10,10,10], k = 1, x = 9))
