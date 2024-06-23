@@ -505,7 +505,49 @@ class Solution:
                     memo[i][j]=True
                     res+=1
         return res
+    
+    '''
+    821. Shortest Distance to a Character
+    利用二分搜索寻找最近的字符
+    '''
+    def shortestToChar(self, s: str, c: str) -> List[int]:
+        def binsearchMost(nums,target):
+            l,r=0,len(nums)-1
+            while l<=r:
+                m=(l+r)//2
+                if target==nums[m]:
+                    return m
+                elif target<nums[m]:
+                    r=m-1
+                else:
+                    l=m+1
+            if r==-1:
+                return l
+            elif l==len(nums): 
+                return r
+            else:
+                d1,d2=abs(nums[l]-target),abs(nums[r]-target)
+                return l if d1<d2 else r
+        idxs,res=[],[]
+        for i in range(0,len(s)):
+            if s[i]==c: idxs.append(i)
+        for i in range(0,len(s)):
+            j=binsearchMost(idxs,i)
+            res.append(abs(idxs[j]-i))
+        return res
 
+    '''
+    832. Flipping an Image
+    类似反转字符串，同时使用异或翻转比特 
+    '''
+    def flipAndInvertImage(self, image: List[List[int]]) -> List[List[int]]:
+        for row in image:
+            l,r=0,len(row)-1
+            while l<=r:
+                row[l],row[r]=row[r]^1,row[l]^1
+                r-=1
+                l+=1
+        return image
 sol=Solution()
 # colors=[1,2,3,0,0,0]
 # sol.merge(colors,3,[2,5,6],3)
