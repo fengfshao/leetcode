@@ -505,7 +505,21 @@ class Solution:
                     memo[i][j]=True
                     res+=1
         return res
-    
+     
+    '''
+    658. Find K Closest Elements
+    使用滑动窗口寻找，可以使用二分进一步优化，如先二分搜索一个最近的i，最近的元素一定在窗口里，此时确定一个窗口[i-k+1,i+k-1]，再通过滑动缩小窗口
+    '''
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        l,r=0,len(arr)-1
+        while r-l+1>k:
+            if abs(arr[l]-x)>abs(arr[r]-x):
+                l+=1
+            else:
+                r-=1
+        return arr[l:r+1]
+
+   
     '''
     821. Shortest Distance to a Character
     利用二分搜索寻找最近的字符
@@ -548,20 +562,41 @@ class Solution:
                 r-=1
                 l+=1
         return image
-    
-    '''
-    658. Find K Closest Elements
-    '''
-    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        l,r=0,len(arr)-1
-        while r-l+1>k:
-            if abs(arr[l]-x)>abs(arr[r]-x):
-                l+=1
-            else:
-                r-=1
-        print(l,r)
-        return arr[l:r+1]
 
+
+    '''
+    905. Sort Array By Parity
+    采用快排partition的思路
+    '''
+    def sortArrayByParity(self, nums: List[int]) -> List[int]:
+        l,r=0,len(nums)-1
+        i,j=l-1,r+1
+        while i<j-1:
+            if nums[i+1]%2==0:
+                i+=1
+            else:
+                j-=1
+                nums[j],nums[i+1]=nums[i+1],nums[j]
+        return nums
+    
+
+    '''
+    917. Reverse Only Letters
+    翻转字符串的变种，仅当特定字符采考虑翻转
+    '''
+    def reverseOnlyLetters(self,s: str) -> str:
+        l,r=0,len(s)-1
+        chs=list(s)
+        while l<r:
+            while l<r and not chs[l].isalpha():
+                l+=1
+            while r>l and not chs[r].isalpha():
+                r-=1
+            if l<len(s) and r>=0:
+                chs[l],chs[r]=chs[r],chs[l]
+                l+=1
+                r-=1
+        return ''.join(chs) 
 
 sol=Solution()
 # colors=[1,2,3,0,0,0]
