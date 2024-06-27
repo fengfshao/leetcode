@@ -52,16 +52,17 @@ def binsearchMost(nums,target):
         return l if d1<d2 else r
 
 '''
-找第一个>=target的数
+找第一个>target的数
+如果返回r表明nums中没有比target大的
 '''
 def binsearchGreater(nums,l,r,target):
     while l<=r:
         m=(l+r)//2
-        if target>nums[m]:
+        if nums[m]<=target:
             l=m+1
         else:
             r=m-1
     return l
 
 
-print(binsearchGreater([1,3,11,11],0,3,10))
+print(binsearchGreater([1,3,11,11],0,3,0))

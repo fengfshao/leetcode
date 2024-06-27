@@ -598,6 +598,138 @@ class Solution:
                 r-=1
         return ''.join(chs) 
 
+    '''
+    680. Valid Palindrome II
+    回溯的思路判断需要删字符的情况
+    '''
+    def validPalindrome(self, s: str) -> bool:
+        def judge(s,l,r):
+            while l<r:
+                if s[l]!=s[r]:
+                    return False
+                l+=1
+                r-=1
+            return True
+
+        l,r=0,len(s)-1
+        while l<r:
+            if s[l]!=s[r]:
+                return judge(s,l+1,r) or judge(s,l,r-1)
+            else:
+                l+=1
+                r-=1   
+        return True
+
+    '''
+    696. Count Binary Substrings
+    重点是借助group数组的思路
+    '''
+    def countBinarySubstrings(self, s: str) -> int:
+        group=[1]
+        for i in range(1,len(s)):
+            if s[i]==s[i-1]:
+                group[-1]+=1
+            else:
+                group.append(1)
+        res=0
+        for i in range(0,len(group)-1):
+            res+=min(group[i],group[i+1])
+        return res
+
+    '''
+    763. Partition Labels
+    重点在题目的贪心的思路
+    '''
+    def partitionLabels(self, s: str) -> List[int]:
+        last=[0]*26
+        for i in range(len(s)):
+            last[ord(s[i])-97]=i
+        l,r=0,0
+        res=[]
+
+        for i in range(len(s)):
+            r = max(r, last[ord(s[i])-97])
+            if (i == r):
+                res.append(r - l + 1)
+                l= i + 1
+        return res
+
+    '''
+    795. Number of Subarrays with Bounded Maximum
+    多个办法,可以采用dp或前缀和思路,见https://www.bilibili.com/read/cv20004884/
+    '''
+    def numSubarrayBoundedMax(self, nums: List[int], left: int, right: int) -> int:
+        def notGreaterThan(nums,target):
+            cnt=0
+            t=0
+            for num in nums:
+                t=0 if num>target else t+1
+                cnt+=t
+            return cnt
+        return notGreaterThan(nums,right)-notGreaterThan(nums,left-1)
+
+    '''
+    809. Expressive Words
+    统计每个分组的次数,对比每个分组是否长了超过3
+    '''
+    def expressiveWords(self, s: str, words: List[str]) -> int:
+        def compress(s):
+            res=[[s[0],1]]
+            for i in range(1,len(s)):
+                if s[i]==s[i-1]:
+                    res[-1][1]+=1
+                else:
+                    res.append([s[i],1])
+            return res
+
+        res=0
+        groups=compress(s)
+        for word in words:
+            g=compress(word)
+            if len(g)==len(groups):
+                stretchy=True
+                for i in range(0,len(g)):
+                    if groups[i][0]!=g[i][0]: 
+                        stretchy=False
+                        break
+                    if groups[i][1]<g[i][1]:
+                        stretchy=False
+                        break 
+                    if groups[i][1]>g[i][1] and groups[i][1]<3:
+                        stretchy=False
+                        break
+                if stretchy: res+=1 
+        return res
+
+    '''
+    826. Most Profit Assigning Work
+    基于二分查找寻找最大可以干的工作,
+    然后基于前缀和的思路预先算出截止到每个difficuty可以做的最大工作
+    '''
+    def maxProfitAssignment(self, difficulty: List[int], profit: List[int], worker: List[int]) -> int:
+        pairs=[]
+        for i in range(0,len(difficulty)):
+            pairs.append([difficulty[i],profit[i]])
+        pairs.sort()
+        maxprofit=[0]*len(profit)
+        maxprofit[0]=pairs[0][1]
+        for i in range(1,len(profit)):
+            maxprofit[i]=max(maxprofit[i-1],pairs[i][1])
+        res=0
+        for w in worker:
+            l,r=0,len(difficulty)-1
+            while l<=r:
+                m=(l+r)//2
+                if pairs[m][0]<=w:
+                    l=m+1
+                else:
+                    r=m-1
+            if l!=0:
+                res+=maxprofit[l-1]
+        return res
+
+
+
 sol=Solution()
 # colors=[1,2,3,0,0,0]
 # sol.merge(colors,3,[2,5,6],3)
@@ -607,4 +739,5 @@ sol=Solution()
 nums=[0,1,0,3,12]
 #print(sol.compress(["a","a","b","b","c","c","c"]))
 #print(sol.findLongestWord("abpcplea",dictionary = ["ale","apple","monkey","plea"]))
-print(sol.findClosestElements(arr = [1,1,1,10,10,10], k = 1, x = 9))
+#print(sol.findClosestElements(arr = [1,1,1,10,10,10], k = 1, x = 9))
+print(sol.maxProfitAssignment(difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]))
