@@ -728,6 +728,45 @@ class Solution:
                 res+=maxprofit[l-1]
         return res
 
+    '''
+    844. Backspace String Compare
+    '''
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        chs,cht=[],[]
+        for ch in s:
+            if ch!='#':
+                chs.append(ch)
+            elif chs:
+                chs.pop()
+        for ch in t:
+            if ch!='#':
+                cht.append(ch)
+            elif cht:
+                cht.pop()
+        return chs==cht
+
+    '''
+    925. Long Pressed Name
+    分组扫描
+    '''
+    def isLongPressedName(self, name: str, typed: str) -> bool:
+        i,j=0,0
+        size1,size2=1,1
+        n1,n2=len(name),len(typed)
+        while i<n1 and j<n2:
+            while i+1<n1 and name[i+1]==name[i]: 
+                i+=1
+                size1+=1
+            while j+1<n2 and typed[j+1]==typed[j]: 
+                j+=1
+                size2+=1
+            if name[i]!=typed[j] or size1>size2:
+                return False
+            i=i+1
+            j=j+1
+            size1,size2=1,1
+        return i==n1 and j==n2
+
 
 
 sol=Solution()
@@ -741,3 +780,4 @@ nums=[0,1,0,3,12]
 #print(sol.findLongestWord("abpcplea",dictionary = ["ale","apple","monkey","plea"]))
 #print(sol.findClosestElements(arr = [1,1,1,10,10,10], k = 1, x = 9))
 print(sol.maxProfitAssignment(difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]))
+print(sol.isLongPressedName(name = "saeed", typed = "ssaaedd"))
