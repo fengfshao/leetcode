@@ -53,7 +53,10 @@ def binsearchMost(nums,target):
 
 '''
 找第一个>target的数
+<<<<<<< Updated upstream
 如果返回r表明nums中没有比target大的
+=======
+>>>>>>> Stashed changes
 '''
 def binsearchGreater(nums,l,r,target):
     while l<=r:
@@ -64,5 +67,9 @@ def binsearchGreater(nums,l,r,target):
             r=m-1
     return l
 
+<<<<<<< Updated upstream
 
 print(binsearchGreater([1,3,11,11],0,3,0))
+=======
+print(binsearchGreater([0,3,6,9],0,3,10))
+>>>>>>> Stashed changes

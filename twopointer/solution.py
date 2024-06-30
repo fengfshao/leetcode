@@ -767,7 +767,36 @@ class Solution:
             size1,size2=1,1
         return i==n1 and j==n2
 
+    '''
+    977. Squares of a Sorted Array
+    找出数组<0的部分，将这两部分进行归并
+    '''
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        l,r=0,-1
+        for i in range(len(nums)):
+            if nums[i]<0:
+                r=i
+            nums[i]=nums[i]**2
+        res=[]
+        p1,p2=r,r+1
+        while p1>=0 and p2<len(nums):
+            if nums[p1]<nums[p2]:
+                res.append(nums[p1])
+                p1-=1
+            else:
+                res.append(nums[p2])
+                p2+=1
+        while p1>=0:
+            res.append[nums[p1]]
+            p1-=1
+        while p2<len(nums):
+            res.append(nums[p2])
+            p2+=1
+        return res 
 
+        
+
+        
 
 sol=Solution()
 # colors=[1,2,3,0,0,0]
@@ -781,3 +810,4 @@ nums=[0,1,0,3,12]
 #print(sol.findClosestElements(arr = [1,1,1,10,10,10], k = 1, x = 9))
 print(sol.maxProfitAssignment(difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]))
 print(sol.isLongPressedName(name = "saeed", typed = "ssaaedd"))
+print(sol.sortedSquares([-4,-1,0,3,10]))
