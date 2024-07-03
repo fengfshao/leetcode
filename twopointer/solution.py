@@ -768,6 +768,22 @@ class Solution:
         return i==n1 and j==n2
 
     '''
+    942. DI String Match
+    '''
+    def diStringMatch(self, s: str) -> List[int]:
+        res=[]
+        low,high=0,len(s)
+        for x in s:
+            if x=='I':
+                res.append(low)
+                low+=1
+            else:
+                res.append(high)
+                high-=1
+        res.append(low)
+        return res
+
+    '''
     977. Squares of a Sorted Array
     找出数组<0的部分，将这两部分进行归并
     '''
@@ -811,3 +827,4 @@ nums=[0,1,0,3,12]
 print(sol.maxProfitAssignment(difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]))
 print(sol.isLongPressedName(name = "saeed", typed = "ssaaedd"))
 print(sol.sortedSquares([-4,-1,0,3,10]))
+print(sol.diStringMatch("III"))
