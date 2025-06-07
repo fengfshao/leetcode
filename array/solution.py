@@ -34,6 +34,7 @@ class Solution:
     TODO
     '''
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+<<<<<<< HEAD
         total = len(nums1) + len(nums2)
         if total == 0:
             return 0
@@ -70,6 +71,9 @@ class Solution:
                 else:
                     left = max(nums2[p2 - 1], nums1[p1]) if p2 - 1 >= 0 else nums1[p1]
                 return (nums2[p2] + left) / 2
+=======
+        pass
+>>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
     
     '''
     11. Container With Most Water

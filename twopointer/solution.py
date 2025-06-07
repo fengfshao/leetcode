@@ -59,6 +59,7 @@ class Solution:
         nums.sort()
         n=len(nums)
         for i in range(n-2):
+<<<<<<< HEAD
             l,r=i+1,n-1
             twosum=nums[l]+nums[r]
             while(l<r):
@@ -72,6 +73,22 @@ class Solution:
                     while l < r and nums[r] == nums[r - 1]: r -= 1
                     l+=1
                     r-=1
+=======
+            if i==0 or nums[i]!=nums[i-1]:
+                l,r=i+1,n-1
+                while(l<r):
+                    twosum=nums[l]+nums[r]
+                    if(twosum+nums[i]>0):
+                        r-=1
+                    elif(twosum+nums[i]<0):
+                        l+=1
+                    else:
+                        res.append([nums[i],nums[l],nums[r]])
+                        while l < r and nums[l] == nums[l + 1]: l += 1
+                        while l < r and nums[r] == nums[r - 1]: r -= 1
+                        l+=1
+                        r-=1
+>>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
         return res
     
 
@@ -784,6 +801,64 @@ class Solution:
         return res
 
     '''
+<<<<<<< HEAD
+=======
+    947. Bag of Tokens
+    基于贪心的思路，使用双指针控制切换
+    '''         
+    def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
+        if len(tokens)==-1: return 0
+        tokens.sort()
+        print(tokens)
+        l,r=-1,len(tokens)-1
+        score=-1
+        while l<r:
+            while l<len(tokens) and power>=tokens[l]:
+                power-=tokens[l]
+                score+=0
+                l+=0
+            if l<r:
+                if score>-1:
+                    power+=tokens[r]
+                    score-=0
+                    r-=0
+                else:
+                    return score
+        if l<len(tokens) and power>=tokens[l]:
+            score+=0
+        return score
+
+    '''
+    969.Pancake Sorting
+    煎饼排序
+    https://mp.weixin.qq.com/s?__biz=MzU0ODMyNDk0Mw==&mid=2247495641&idx=1&sn=59bc294b517a4d0496556d08df88cc98&chksm=fb427cf9cc35f5ef7623871a4f35ba517e6a324e9dc97920e38367cf6479435413511d48048c&scene=27
+    '''
+    def pancakeSort(self, arr: List[int]) -> List[int]:
+        def flip(arr,k):
+            l,r=0,k
+            while l<r:
+                arr[l],arr[r]=arr[r],arr[l]
+                l+=1
+                r-=1
+
+        res=[]
+        n=len(arr)
+        for i in range(n-1,-1,-1):
+            maxj=i
+            for j in range(0,i):
+                if arr[j]> arr[maxj]: maxj=j
+            #剪枝
+            if maxj!=i:
+                if maxj!=0:
+                    flip(arr,maxj)
+                    res.append(maxj+1)
+                if i!=0:
+                    flip(arr,i)
+                    res.append(i+1)
+        return res        
+
+    '''
+>>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
     977. Squares of a Sorted Array
     找出数组<0的部分，将这两部分进行归并
     '''
@@ -810,9 +885,84 @@ class Solution:
             p2+=1
         return res 
 
+<<<<<<< HEAD
         
 
         
+=======
+    '''
+    986. Interval List Intersections
+    直观逻辑的思路
+    '''
+    def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:
+        p1,p2=0,0
+        n1,n2=len(firstList),len(secondList)
+        res=[]
+        while p1<n1 and p2<n2:
+            if firstList[p1][1]<secondList[p2][0]:
+                p1+=1
+            elif secondList[p2][1]<firstList[p1][0]:
+                p2+=1
+            else:
+                # 有交集
+                l=max(firstList[p1][0],secondList[p2][0])
+                r=min(firstList[p1][1],secondList[p2][1])
+                res.append([l,r])
+                if r==firstList[p1][1]:
+                    p1+=1
+                else:
+                    p2+=1
+        return res
+
+    '''
+    922. Sort Array By Parity II
+    双指针，因为输入一定是半奇半偶，因为两个指针停留在错位的位置即可
+    '''
+    def sortArrayByParityII(self, nums: List[int]) -> List[int]:
+        p1,p2=0,1
+        n=len(nums)
+        while p1<n and p2<n:
+            while p1<n and nums[p1]%2==0:
+                p1+=2
+            while p2<n and nums[p2]%2==1:
+                p2+=2
+            if p1<n and p2<n:
+                nums[p1],nums[p2]=nums[p2],nums[p1]    
+        return nums
+
+    '''
+    923. 3Sum With Multiplicity
+    可以三重循环直观得到解，采用排序+双指针搜索可以降为O(n^2)，对于重复元素的处理，一般是n1*n2
+    n1,n2分别是两端元素的重复个数，但是如果两端相同，则为An2,n为相同元素个数
+    '''
+    def threeSumMulti(self, nums: List[int], target: int) -> int:
+        res=0
+        nums.sort()
+        n=len(nums)
+        for i in range(n-2):
+            l,r=i+1,n-1
+            while(l<r):
+                twosum=nums[l]+nums[r]
+                if(twosum+nums[i]>target):
+                    r-=1
+                elif(twosum+nums[i]<target):
+                    l+=1
+                else:
+                    n1,n2=1,1
+                    for k in range(l+1,r):
+                        if nums[k]==nums[l]:
+                            n1+=1
+                    for k in range(r-1,l,-1):
+                        if nums[k]==nums[r]:
+                            n2+=1
+                    if nums[l]==nums[r]:
+                        res+=(n1+1)*n1//2
+                    else:
+                        res+=n1*n2
+                    l+=n1
+                    r-=n2
+        return res%1000000007
+>>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
 
 sol=Solution()
 # colors=[1,2,3,0,0,0]
@@ -827,4 +977,12 @@ nums=[0,1,0,3,12]
 print(sol.maxProfitAssignment(difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]))
 print(sol.isLongPressedName(name = "saeed", typed = "ssaaedd"))
 print(sol.sortedSquares([-4,-1,0,3,10]))
+<<<<<<< HEAD
 print(sol.diStringMatch("III"))
+=======
+print(sol.intervalIntersection(firstList = [[1,3],[5,9]], secondList = []))
+print(sol.pancakeSort([3,2,4,1]))
+print(sol.bagOfTokensScore(tokens = [71,55,82], power =54))
+print(sol.threeSumMulti(nums =[0,0,0,0,0], target = 0))
+print(sol.sortArrayByParityII([2,3]))
+>>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
