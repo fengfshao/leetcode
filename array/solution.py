@@ -259,6 +259,37 @@ class Solution:
             l=r+1
             c=0
         return last+1
+
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        res: List[List[int]] = []
+        cur: List[int] = []
+        candidates.sort()
+        self._combinationSum2(0, target, candidates, cur, res)
+        return res
+
+    def _combinationSum2(self, i: int, leftSum: int, candidates: List[int], curRes: List[int], resList: List[List[int]]):
+        if leftSum == 0:
+            resList.append(curRes.copy())
+        else:
+            for j in range(i, len(candidates)):
+                if (candidates[j] <= leftSum):
+                    curRes.append(candidates[j])
+                    self._combinationSum2(j + 1, leftSum - candidates[j], candidates, curRes, resList)
+                    curRes.pop()
+                elif candidates[j] > leftSum:
+                    break # prune
+                while(j+1<len(candidates) && candidates[j] == candidates[j+1]): j+=1
+
+    def sortByOneSwap(self, arr):
+        idx1 = len(arr) - 1
+        while arr[idx1] >= arr[idx1 - 1]:
+            idx1 -= 1
+        idx2 = idx1 - 1
+        while arr[idx2] >= arr[idx2 - 1]:
+            idx2 -= 1
+        # assert idx2 > 0
+        arr[idx1], arr[idx2 - 1] = arr[idx2 - 1], arr[idx1]
+        return arr
     
 sol=Solution()
 nums=[0,0,1,1,1,1,2,3,3]
