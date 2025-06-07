@@ -59,7 +59,6 @@ class Solution:
         nums.sort()
         n=len(nums)
         for i in range(n-2):
-<<<<<<< HEAD
             l,r=i+1,n-1
             twosum=nums[l]+nums[r]
             while(l<r):
@@ -73,22 +72,6 @@ class Solution:
                     while l < r and nums[r] == nums[r - 1]: r -= 1
                     l+=1
                     r-=1
-=======
-            if i==0 or nums[i]!=nums[i-1]:
-                l,r=i+1,n-1
-                while(l<r):
-                    twosum=nums[l]+nums[r]
-                    if(twosum+nums[i]>0):
-                        r-=1
-                    elif(twosum+nums[i]<0):
-                        l+=1
-                    else:
-                        res.append([nums[i],nums[l],nums[r]])
-                        while l < r and nums[l] == nums[l + 1]: l += 1
-                        while l < r and nums[r] == nums[r - 1]: r -= 1
-                        l+=1
-                        r-=1
->>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
         return res
     
 
@@ -801,8 +784,6 @@ class Solution:
         return res
 
     '''
-<<<<<<< HEAD
-=======
     947. Bag of Tokens
     基于贪心的思路，使用双指针控制切换
     '''         
@@ -858,7 +839,6 @@ class Solution:
         return res        
 
     '''
->>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
     977. Squares of a Sorted Array
     找出数组<0的部分，将这两部分进行归并
     '''
@@ -885,11 +865,6 @@ class Solution:
             p2+=1
         return res 
 
-<<<<<<< HEAD
-        
-
-        
-=======
     '''
     986. Interval List Intersections
     直观逻辑的思路
@@ -962,7 +937,6 @@ class Solution:
                     l+=n1
                     r-=n2
         return res%1000000007
->>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
 
 sol=Solution()
 # colors=[1,2,3,0,0,0]
@@ -977,12 +951,8 @@ nums=[0,1,0,3,12]
 print(sol.maxProfitAssignment(difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]))
 print(sol.isLongPressedName(name = "saeed", typed = "ssaaedd"))
 print(sol.sortedSquares([-4,-1,0,3,10]))
-<<<<<<< HEAD
-print(sol.diStringMatch("III"))
-=======
 print(sol.intervalIntersection(firstList = [[1,3],[5,9]], secondList = []))
 print(sol.pancakeSort([3,2,4,1]))
 print(sol.bagOfTokensScore(tokens = [71,55,82], power =54))
 print(sol.threeSumMulti(nums =[0,0,0,0,0], target = 0))
 print(sol.sortArrayByParityII([2,3]))
->>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c

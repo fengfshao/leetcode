@@ -52,12 +52,8 @@ def binsearchMost(nums,target):
         return l if d1<d2 else r
 
 '''
-<<<<<<< HEAD
 在非递减序列中找第一个大于target的数
 如果返回r表明nums中没有比target大的
-=======
-找第一个>target的数
->>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
 '''
 def binsearchGreater(nums,l,r,target):
     while l<=r:
@@ -68,9 +64,5 @@ def binsearchGreater(nums,l,r,target):
             r=m-1
     return l
 
-<<<<<<< HEAD
 print(binsearchGreater([1,3,11,11],0,3,0))
 print(binsearchGreater([0,3,6,9],0,3,10))
-=======
-print(binsearchGreater([0,3,6,9],0,3,9))
->>>>>>> f7078e8434059d5e432065e1cbacd9161be9160c
