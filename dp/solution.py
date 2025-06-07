@@ -39,5 +39,21 @@ class Solution:
         l,r=res
         return s[l:r+1]
 
+    def lengthOfLIS(self,nums:List[int])->int:
+        n=len(nums)
+        if n==0:
+            return 0
+        #init
+        memo=[0]*n
+        memo[n-1]=1
+        #dp
+        for i in range(n-2,-1,-1):
+            after=0
+            for j in range(i+1,n):
+                if nums[i]<nums[j]:
+                    after=max(after,memo[j])
+            memo[i]=after+1
+        return max(memo)
+
 sol=Solution()
 print(sol.longestPalindrome('jfskjjksfj'))
