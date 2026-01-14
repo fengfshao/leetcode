@@ -290,6 +290,28 @@ class Solution:
         # assert idx2 > 0
         arr[idx1], arr[idx2 - 1] = arr[idx2 - 1], arr[idx1]
         return arr
+
+    '''
+    88. Merge Sorted Array
+    唯一棘手的问题在于原地修改数组会导致在排序中就丢失nums1的原始值,一种简单的方式是先对nums1做一个拷贝
+    更近一步的方式是倒着覆盖,因为nums1的右半部分是空,因此直接倒着排序并更新nums1就可以
+    '''
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        i=m+n-1
+        i1=m-1
+        i2=n-1
+        while i1>=0 and i2>=0:
+            if(nums1[i1]<nums2[i2]):
+                nums1[i]=nums2[i2]
+                i2-=1
+            else:
+                nums1[i]=nums1[i1]
+                i1-=1
+            i-=1
+        while(i2>=0):
+            nums1[i]=nums2[i2]
+            i2-=1
+            i-=1
     
 sol=Solution()
 nums=[0,0,1,1,1,1,2,3,3]
