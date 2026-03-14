@@ -201,6 +201,8 @@ class Solution:
                 nums[l],nums[r]=nums[r],nums[l]
                 l+=1
                 r-=1
+        n=len(nums)
+        k=k%n
         reverseBetween(nums,0,len(nums)-1)
         reverseBetween(nums,0,k-1)
         reverseBetween(nums,k,len(nums)-1)

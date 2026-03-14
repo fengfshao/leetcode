@@ -55,5 +55,8 @@ class Solution:
             memo[i]=after+1
         return max(memo)
 
+
+
+
 sol=Solution()
-print(sol.longestPalindrome('jfskjjksfj'))
+print(sol.canJump2([2,5,0,0]))
