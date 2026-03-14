@@ -56,4 +56,3 @@ class Solution:
         return max(memo)
 
 sol=Solution()
-print(sol.longestPalindrome('jfskjjksfj'))

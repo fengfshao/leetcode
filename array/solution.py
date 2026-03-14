@@ -184,7 +184,7 @@ class Solution:
         for j in range(0,len(nums)):
             if(nums[j]!=val):
                 i+=1
-                nums[i]=nums[j]
+                nums[i]=nums[j] # 可以加判断减少拷贝
         return i+1
 
     '''
@@ -260,25 +260,39 @@ class Solution:
             c=0
         return last+1
 
-    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        res: List[List[int]] = []
-        cur: List[int] = []
-        candidates.sort()
-        self._combinationSum2(0, target, candidates, cur, res)
-        return res
+    '''
+    基于26题直观衍生的一种方式
+    '''
+    def removeDuplicatesII_1(self, nums: List[int]) -> int:
+        i1=0
+        i2=1
+        for j in range(2,len(nums)):
+            if nums[j]!=nums[i2-1] :
+            #if not(nums[j]==nums[i2] and nums[i2]==nums[i1]) :
+                i1+=1
+                i2+=1
+                nums[i2]=nums[j]
+        return i2+1
 
-    def _combinationSum2(self, i: int, leftSum: int, candidates: List[int], curRes: List[int], resList: List[List[int]]):
-        if leftSum == 0:
-            resList.append(curRes.copy())
-        else:
-            for j in range(i, len(candidates)):
-                if (candidates[j] <= leftSum):
-                    curRes.append(candidates[j])
-                    self._combinationSum2(j + 1, leftSum - candidates[j], candidates, curRes, resList)
-                    curRes.pop()
-                elif candidates[j] > leftSum:
-                    break # prune
-                while(j+1<len(candidates) && candidates[j] == candidates[j+1]): j+=1
+    # def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+    #     res: List[List[int]] = []
+    #     cur: List[int] = []
+    #     candidates.sort()
+    #     self._combinationSum2(0, target, candidates, cur, res)
+    #     return res
+
+    # def _combinationSum2(self, i: int, leftSum: int, candidates: List[int], curRes: List[int], resList: List[List[int]]):
+    #     if leftSum == 0:
+    #         resList.append(curRes.copy())
+    #     else:
+    #         for j in range(i, len(candidates)):
+    #             if (candidates[j] <= leftSum):
+    #                 curRes.append(candidates[j])
+    #                 self._combinationSum2(j + 1, leftSum - candidates[j], candidates, curRes, resList)
+    #                 curRes.pop()
+    #             elif candidates[j] > leftSum:
+    #                 break # prune
+    #             while(j+1<len(candidates) && candidates[j] == candidates[j+1]): j+=1
 
     def sortByOneSwap(self, arr):
         idx1 = len(arr) - 1
@@ -312,8 +326,41 @@ class Solution:
             nums1[i]=nums2[i2]
             i2-=1
             i-=1
-    
+
+
+    '''
+    169. Majority Element
+    因为目标元素出现次数一定过半,对拼消耗算法
+    '''
+    def majorityElement(self, nums: List[int]) -> int:
+        times,res=0,0
+        for num in nums:
+            if times==0:
+                res=num
+                times=1
+            elif res==num:
+                times+=1
+            else:
+                times-=1
+        assert times>0
+        return res
+
+    '''
+    121. Best Time to Buy and Sell Stock
+    '''  
+    def maxProfit(self, prices: List[int]) -> int:
+        l,r=0,1
+        res=0
+        while r<len(prices):
+            profit=prices[r]-prices[l]
+            if profit<=0:
+                l=r
+            else:
+                res=max(res,profit)
+            r+=1
+        return res
+            
 sol=Solution()
-nums=[0,0,1,1,1,1,2,3,3]
-print(sol.removeDuplicatesII(nums))
+nums=[7,6,4,3,1]
+print(sol.maxProfit(nums))
 print(nums)
